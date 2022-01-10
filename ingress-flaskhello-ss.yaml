@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+        name: flask-hello-ingress
+        annotations:
+                nginx.ingress.kubernetes.io/rewrite-target: /
+                nginx.ingress.kubernetes.io/affinity: "cookie"
+                nginx.ingress.kubernetes.io/session-cookie-name: "k8s-ss"
+                nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+
+spec:
+        rules:
+        - http:
+                  paths:
+                  - path: /flask-hello
+                    pathType: Prefix
+                    backend:
+                            service:
+                                    name: flask-hello
+                                    port:
+                                            number: 5000
+
